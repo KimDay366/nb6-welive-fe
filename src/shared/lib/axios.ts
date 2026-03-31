@@ -5,7 +5,7 @@ const getBaseUrl = (): string => {
     const storedUrl = localStorage.getItem('apiBaseUrl');
     if (storedUrl && storedUrl.startsWith('http')) return storedUrl;
   }
-  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3005';
+  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 };
 
 const axiosInstance = axios.create({

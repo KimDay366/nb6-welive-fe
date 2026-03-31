@@ -7,13 +7,13 @@ interface ApiUrlState {
 }
 
 export const useApiUrlStore = create<ApiUrlState>((set) => {
-  let initialUrl = 'http://localhost:9000/api';
+  let initialUrl = 'http://localhost:3000';
 
   if (typeof window !== 'undefined') {
     initialUrl =
       localStorage.getItem('apiBaseUrl') ||
       process.env.NEXT_PUBLIC_API_BASE_URL ||
-      'http://localhost:9000/api';
+      'http://localhost:3000';
   }
 
   return {
@@ -24,7 +24,7 @@ export const useApiUrlStore = create<ApiUrlState>((set) => {
     },
     reset: () => {
       localStorage.removeItem('apiBaseUrl');
-      const defaultUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:9000/api';
+      const defaultUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
       set({ url: defaultUrl });
     },
   };
