@@ -28,7 +28,7 @@ export default function ResidentInfoTable({ data, totalCount, currentPage, items
     unitNumber: '',
     contact: '',
     name: '',
-    isHouseholder: true,
+    isHouseholder: 'HOUSEHOLDER' as 'HOUSEHOLDER' | 'MEMBER',
   });
 
   const handleClose = () => {
@@ -43,7 +43,7 @@ export default function ResidentInfoTable({ data, totalCount, currentPage, items
         unitNumber: editData.unitNumber || '',
         contact: editData.contact || '',
         name: editData.name || '',
-        isHouseholder: editData.isHouseholder ?? true,
+        isHouseholder: editData.isHouseholder ?? 'HOUSEHOLDER',
       });
     }
   }, [editData]);
@@ -155,13 +155,13 @@ export default function ResidentInfoTable({ data, totalCount, currentPage, items
             <li>
               <Select
                 options={[
-                  { value: 'true', label: '세대주' },
-                  { value: 'false', label: '세대원' },
+                  { value: 'HOUSEHOLDER', label: '세대주' },
+                  { value: 'MEMBER', label: '세대원' },
                 ]}
                 label='세대 구분'
                 width='100%'
-                value={String(form.isHouseholder)}
-                onChange={(val) => handleChange('isHouseholder', val === 'true')}
+                value={form.isHouseholder}
+                onChange={(val) => handleChange('isHouseholder', val)}
               />
             </li>
           </ul>

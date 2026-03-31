@@ -28,7 +28,7 @@ export default function RegisterSingleModal({
     name: '',
     contact: '',
     residenceStatus: 'RESIDENCE',
-    isHouseholder: true,
+    isHouseholder: 'HOUSEHOLDER' as 'HOUSEHOLDER' | 'MEMBER',
     approvalStatus: 'PENDING',
   };
 
@@ -123,8 +123,8 @@ export default function RegisterSingleModal({
             label='거주'
             options={RESIDENCE_OPTIONS}
             width='full'
-            value={String(formData.isHouseholder)}
-            onChange={(value) => handleChange('isHouseholder', value === 'true')}
+            value={formData.isHouseholder}
+            onChange={(value) => handleChange('isHouseholder', value)}
           />
         </span>
 

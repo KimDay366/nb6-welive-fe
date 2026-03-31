@@ -64,7 +64,7 @@ export default function ResidentTable({
                                 ? '가입'
                                 : '미가입'
                               : col.key === 'isHouseholder'
-                                ? row.isHouseholder
+                                ? row.isHouseholder === 'HOUSEHOLDER'
                                   ? '세대주'
                                   : '세대원'
                                 : row[col.key]}

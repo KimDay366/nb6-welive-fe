@@ -24,7 +24,7 @@ export interface ResidentFormData {
   name: string;
   contact: string;
   residenceStatus: string;
-  isHouseholder: boolean;
+  isHouseholder: 'HOUSEHOLDER' | 'MEMBER';
   approvalStatus: string;
 }
 
@@ -33,7 +33,7 @@ export interface EditResidentFormData {
   unitNumber: string;
   name: string;
   contact: string;
-  isHouseholder: boolean;
+  isHouseholder: 'HOUSEHOLDER' | 'MEMBER';
 }
 
 export interface ResidentModalProps {
@@ -64,8 +64,7 @@ export interface AdminResidentData {
   name: string;
   email: string;
   residenceStatus: 'RESIDENCE' | 'NO_RESIDENCE';
-  isHouseholder: boolean;
-  // isHouseholder: 'HOUSEHOLDER' | 'RESIDENCE' | 'NON_HOUSEHOLDER';
+  isHouseholder: 'HOUSEHOLDER' | 'MEMBER';
   isRegistered: boolean;
   approvalStatus: 'APPROVED' | 'PENDING' | 'REJECTED';
   note?: string;
@@ -89,8 +88,7 @@ export interface AdminResidentTable {
 export interface FilterState {
   building: string;
   unitNumber: string;
-  isHouseholder: boolean | 'all';
-  // isHouseholder: string;
+  isHouseholder: 'HOUSEHOLDER' | 'MEMBER' | 'all';
   isRegistered: boolean | 'all';
   keyword: string;
 }

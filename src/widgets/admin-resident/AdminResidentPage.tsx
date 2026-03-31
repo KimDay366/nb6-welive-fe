@@ -32,8 +32,8 @@ export default function AdminResidentPage() {
   const [filters, setFilters] = useState<FilterState>({
     building: 'all',
     unitNumber: 'all',
-    isHouseholder: true,
-    isRegistered: true,
+    isHouseholder: 'all',
+    isRegistered: 'all',
     keyword: '',
   });
   const [selectedResident, setSelectedResident] = useState<AdminResidentData | undefined>(
@@ -53,8 +53,8 @@ export default function AdminResidentPage() {
     if (keyword.trim()) params.keyword = keyword.trim();
     if (filters.building !== 'all') params.building = filters.building;
     if (filters.unitNumber !== 'all') params.unitNumber = filters.unitNumber;
-    if (filters.isHouseholder !== true) params.isHouseholder = filters.isHouseholder;
-    if (filters.isRegistered !== true) params.isRegistered = filters.isRegistered;
+    if (filters.isHouseholder !== 'all') params.isHouseholder = filters.isHouseholder;
+    if (filters.isRegistered !== 'all') params.isRegistered = filters.isRegistered;
     return params;
   }, [keyword, filters, currentPage, limit]);
 

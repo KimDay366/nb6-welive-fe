@@ -18,7 +18,7 @@ export default function EditResidentModal({
     unitNumber: '',
     name: '',
     contact: '',
-    isHouseholder: true,
+    isHouseholder: 'HOUSEHOLDER' as 'HOUSEHOLDER' | 'MEMBER',
   };
 
   const [formData, setFormData] = useState(initialFormState);
@@ -30,7 +30,7 @@ export default function EditResidentModal({
         unitNumber: resident.unitNumber ?? '',
         name: resident.name ?? '',
         contact: resident.contact ?? '',
-        isHouseholder: resident.isHouseholder ?? true,
+        isHouseholder: resident.isHouseholder ?? 'HOUSEHOLDER',
       });
     }
   }, [resident, isModalOpen]);
@@ -103,8 +103,8 @@ export default function EditResidentModal({
             label='거주'
             options={RESIDENCE_OPTIONS}
             width='full'
-            value={String(formData.isHouseholder)}
-            onChange={(value) => handleChange('isHouseholder', value === 'true')}
+            value={formData.isHouseholder}
+            onChange={(value) => handleChange('isHouseholder', value)}
           />
         </span>
 

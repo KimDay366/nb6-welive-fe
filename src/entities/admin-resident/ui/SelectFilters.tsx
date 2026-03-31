@@ -4,7 +4,7 @@ interface SelectFiltersProps {
   filters: {
     building: string;
     unitNumber: string;
-    isHouseholder: boolean | 'all';
+    isHouseholder: 'HOUSEHOLDER' | 'MEMBER' | 'all';
     isRegistered: boolean | 'all';
   };
   options: {
@@ -39,10 +39,8 @@ export default function SelectFilters({ filters, options, onChange }: SelectFilt
         <Select
           label='거주'
           options={options.isHouseholder}
-          value={String(filters.isHouseholder)}
-          onChange={(v) =>
-            onChange('isHouseholder', v === 'true' ? true : v === 'false' ? false : 'all')
-          }
+          value={filters.isHouseholder}
+          onChange={(v) => onChange('isHouseholder', v as any)}
         />
       </span>
       <span>

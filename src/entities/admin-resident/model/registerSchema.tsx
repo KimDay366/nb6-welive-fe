@@ -8,6 +8,6 @@ export const registerSchema = z.object({
   contact: z.string().regex(/^010\d{8}$/, '연락처 형식이 올바르지 않습니다.'),
   residenceStatus: z.string(),
   // isHouseholder: z.string().min(1, '거주 상태를 선택해주세요.'),
-  isHouseholder: z.boolean(),
+  isHouseholder: z.enum(['HOUSEHOLDER', 'MEMBER']),
   approvalStatus: z.string(),
 });

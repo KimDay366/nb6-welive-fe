@@ -6,7 +6,7 @@ export type residentInfoType = {
   name: string;
   contact: string;
   approvalStatus: string;
-  isHouseholder?: boolean;
+  isHouseholder?: 'HOUSEHOLDER' | 'MEMBER';
   isRegistered?: boolean;
   email?: string;
 };

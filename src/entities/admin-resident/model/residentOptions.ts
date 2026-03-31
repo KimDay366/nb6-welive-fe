@@ -24,8 +24,8 @@ export function getIsHouseholderOptions(residents: AdminResidentData[]) {
   return [
     { value: 'all', label: '전체' },
     ...Array.from(new Set(residents.map((r) => r.isHouseholder))).map((isHouseholder) => ({
-      value: String(isHouseholder),
-      label: isHouseholder ? '세대주' : '세대원',
+      value: isHouseholder,
+      label: isHouseholder === 'HOUSEHOLDER' ? '세대주' : '세대원',
     })),
   ];
 }
