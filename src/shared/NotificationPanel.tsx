@@ -1,3 +1,5 @@
+import { useRouter } from 'next/router';
+
 export interface Notification {
   notificationId: string;
   title: string;
@@ -5,6 +7,7 @@ export interface Notification {
   notificationType: string;
   notifiedAt: string;
   isChecked: boolean;
+  url: string;
   complaintId?: string;
   noticeId?: string;
   pollId?: string;
@@ -75,12 +78,18 @@ export default function NotificationPanel({
   onClose,
   onMarkAsRead,
 }: NotificationPanelProps) {
-  // 알림 클릭 시 읽음 처리
-  const handleClick = async (notificationId: string) => {
+  const router = useRouter();
+
+  // 알림 클릭 시 읽음 처리 및 이동
+  const handleClick = async (notificationId: string, url: string) => {
     try {
       await onMarkAsRead(notificationId);
 
       setNotifications((prev) => prev.filter((alarm) => alarm.notificationId !== notificationId));
+
+      if (url) {
+        router.push(url);
+      }
     } catch (error) {
       console.error('알림 처리 실패:', error);
     }
@@ -95,11 +104,22 @@ export default function NotificationPanel({
           <div
             key={alarm.notificationId}
             className={`mb-4 flex cursor-pointer flex-col gap-1 border-b border-gray-100 pb-3 last:border-b-0 ${alarm.isChecked ? 'opacity-50' : ''}`}
-            onClick={() => handleClick(alarm.notificationId)}
+            onClick={() => handleClick(alarm.notificationId, alarm.url)}
           >
             {/* <p className='text-sm text-gray-800'>{alarm.content}</p> */}
-            <p className='text-sm text-gray-800'>{getFormattedMessage(alarm)}</p>
-            <span className='text-xs text-gray-400'>{getRelativeTime(alarm.notifiedAt)}</span>
+            <p className='text-sm font-medium text-gray-800'>{getFormattedMessage(alarm)}</p>
+            <div className='flex items-center justify-between'>
+              <span className='text-xs text-gray-400'>{getRelativeTime(alarm.notifiedAt)}</span>
+              <button
+                className='text-main text-xs font-bold hover:underline'
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleClick(alarm.notificationId, alarm.url);
+                }}
+              >
+                링크
+              </button>
+            </div>
           </div>
         ))
       )}

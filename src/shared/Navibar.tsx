@@ -14,6 +14,7 @@ export interface Notification {
   notificationType: string;
   notifiedAt: string;
   isChecked: boolean;
+  url: string;
   complaintId?: string;
   noticeId?: string;
   pollId?: string;
