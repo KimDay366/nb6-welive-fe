@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const votingFormSchema = z.object({
   title: z.string().min(1, '제목을 입력해주세요'),
   content: z.string().min(1, '내용을 입력해주세요'),
-  buildingPermission: z.string(),
+  buildingPermission: z.union([z.string(), z.array(z.string())]),
   startDate: z.string().min(1, '시작일을 선택해주세요'),
   endDate: z.string().min(1, '종료일을 선택해주세요'),
   options: z

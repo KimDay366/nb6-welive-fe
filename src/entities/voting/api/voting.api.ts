@@ -16,7 +16,7 @@ export interface CreateVotingRequest {
   status: PollStatus;
   title: string;
   content: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   startDate: string;
   endDate: string;
   options: VotingOption[];
@@ -32,7 +32,7 @@ export interface PollListItem {
   userId: string;
   title: string;
   writerName: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   createdAt: string;
   startDate: string;
   endDate: string;
@@ -44,15 +44,13 @@ export interface PollListResponse {
   totalCount: number;
 }
 
-export const getVotingList = async (
-  params: {
-    page: number,
-    limit: number,
-    buildingPermission?: number,
-    status?: PollStatus,
-    keyword?: string
-  }
-): Promise<PollListResponse> => {
+export const getVotingList = async (params: {
+  page: number;
+  limit: number;
+  buildingPermission?: string;
+  status?: PollStatus;
+  keyword?: string;
+}): Promise<PollListResponse> => {
   const res = await axios.get('/polls', { params });
 
   return res.data;
@@ -69,7 +67,7 @@ export interface PollOption {
 export interface PollDetail {
   pollId: string;
   title: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   createdAt: string;
   startDate: string;
   endDate: string;
@@ -110,7 +108,7 @@ export interface UpdateVotingOption {
 export interface UpdateVotingRequest {
   title: string;
   content: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   startDate: string;
   endDate: string;
   status: PollStatus;

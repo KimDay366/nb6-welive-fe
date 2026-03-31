@@ -40,9 +40,9 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
       title: initialData?.title ?? '',
       content: initialData?.content ?? '',
       buildingPermission:
-        initialData?.buildingPermission === 0
-          ? 'all'
-          : (initialData?.buildingPermission?.toString() ?? 'all'),
+        initialData?.buildingPermission && initialData.buildingPermission.length > 0
+          ? initialData.buildingPermission[0]
+          : 'all',
       startDate: initialData?.startDate ?? '',
       endDate: initialData?.endDate ?? '',
       options: initialData?.options.map((opt) => ({ value: opt.title, enabled: true })) ?? [
@@ -103,7 +103,7 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
         title: formData.title,
         content: formData.content,
         buildingPermission:
-          formData.buildingPermission === 'all' ? 0 : Number(formData.buildingPermission),
+          formData.buildingPermission === 'all' ? [] : [formData.buildingPermission as string],
         startDate: new Date(formData.startDate).toISOString(),
         endDate: new Date(formData.endDate).toISOString(),
         options: formData.options.filter((opt) => opt.enabled).map((opt) => ({ title: opt.value })),
@@ -173,7 +173,7 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
               showPlaceholder={!isEdit}
               placeholder='전체'
               disabled={buildingPermission === 'all'}
-              value={buildingPermission === 'all' ? '' : buildingPermission}
+              value={buildingPermission === 'all' ? '' : (buildingPermission as string)}
               onChange={(value) => setValue('buildingPermission', value)}
               options={[{ value: 'all', label: '전체' }, ...dongOptions]}
             />

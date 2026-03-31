@@ -15,7 +15,7 @@ interface VotingSelectorProps {
   pollId: string;
   options: Option[];
   endAt: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   status: 'PENDING' | 'IN_PROGRESS' | 'CLOSED';
 }
 
@@ -39,9 +39,11 @@ export default function VotingSelector({
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(cookieOptionId);
   const [hasVoted, setHasVoted] = useState(Boolean(cookieOptionId));
 
-  const permission = buildingPermission.toString().padStart(4, '0');
-  const dong = Number(residentDong).toString().padStart(4, '0');
-  const canVote = role !== 'USER' ? true : buildingPermission === 0 || permission === dong;
+  const canVote =
+    role !== 'USER'
+      ? true
+      : buildingPermission.length === 0 ||
+        (residentDong && buildingPermission.includes(residentDong));
 
   const endDate = new Date(endAt);
   const isUnavailable = status !== 'IN_PROGRESS';

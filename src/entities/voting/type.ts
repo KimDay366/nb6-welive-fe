@@ -16,7 +16,7 @@ export interface VotingList {
   userId: string;
   title: string;
   writerName: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   createdAt: string;
   startDate: string;
   endDate: string;
@@ -31,7 +31,7 @@ export interface VotingOption {
 export interface VotingDetail {
   pollId: string;
   title: string;
-  buildingPermission: number;
+  buildingPermission: string[];
   createdAt: string;
   startDate: string;
   endDate: string;

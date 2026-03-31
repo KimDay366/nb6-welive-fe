@@ -5,7 +5,7 @@ import { getVotingList, PollListItem, PollStatus } from '../api/voting.api';
 export function useVoting() {
   const [data, setData] = useState<VotingList[]>([]);
   const [totalCount, setTotalCount] = useState(0);
-  const [dongFilter, setDongFilter] = useState<number | undefined>();
+  const [dongFilter, setDongFilter] = useState<string | undefined>();
   const [statusFilter, setStatusFilter] = useState<PollStatus | undefined>();
   const [keyword, setKeyword] = useState<string | undefined>();
   const [currentPage, setCurrentPage] = useState(1);
@@ -18,7 +18,7 @@ export function useVoting() {
           limit: 11,
           buildingPermission: dongFilter,
           status: statusFilter,
-          keyword: keyword?.trim()
+          keyword: keyword?.trim(),
         });
         const parsed: VotingList[] = res.polls.map((item: PollListItem) => ({
           pollId: item.pollId,
@@ -47,10 +47,15 @@ export function useVoting() {
   }, [dongFilter, statusFilter, keyword, currentPage]);
 
   return {
-    data, totalCount,
-    dongFilter, setDongFilter,
-    statusFilter, setStatusFilter,
-    keyword, setKeyword,
-    currentPage, setCurrentPage
+    data,
+    totalCount,
+    dongFilter,
+    setDongFilter,
+    statusFilter,
+    setStatusFilter,
+    keyword,
+    setKeyword,
+    currentPage,
+    setCurrentPage,
   };
 }
