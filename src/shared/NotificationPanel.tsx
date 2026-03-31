@@ -1,5 +1,6 @@
 export interface Notification {
   notificationId: string;
+  title: string;
   content: string;
   notificationType: string;
   notifiedAt: string;
@@ -30,6 +31,44 @@ function getRelativeTime(isoString: string) {
   return date.toLocaleDateString('ko-KR');
 }
 
+// 알림 메시지 포맷 함수
+function getFormattedMessage(alarm: Notification) {
+  const { notificationType, title, content } = alarm;
+
+  switch (notificationType) {
+    // 1. 민원
+    case 'COMPLAINT_RAISED':
+      return `민원 "${title}"이 접수되었습니다.`;
+    case 'COMPLAINT_IN_PROGRESS':
+      return `민원 "${title}"이 처리 중입니다.`;
+    case 'COMPLAINT_RESOLVED':
+      return `민원 "${title}"이 처리 완료되었습니다.`;
+    case 'COMPLAINT_REJECTED':
+      return `민원 "${title}"이 거절되었습니다.`;
+
+    // 2. 공지사항
+    case 'NOTICE':
+      return `공지사항 "${title}"이 등록되었습니다.`;
+
+    // 3. 투표
+    case 'POLL_SET': // 투표 등록/생성 시
+      return `투표 "${title}"가 등록되었습니다.`;
+    case 'POLL_START': // 투표 시작 시
+      return `투표 "${title}"가 시작되었습니다.`;
+    case 'POLL_END': // 투표 종료 시
+      return `투표 "${title}"가 종료되었습니다.`;
+
+    // 4. 회원가입 (Admin 전용)
+    case 'SIGNUP_REQ':
+      const name = content.split('님이')[0];
+      return `"${name}"님이 회원가입을 요청했습니다.`;
+    // return content.includes('가입을 요청') ? content : `"${title}"님이 회원가입을 요청했습니다.`;
+
+    default:
+      return content;
+  }
+}
+
 export default function NotificationPanel({
   notifications,
   setNotifications,
@@ -58,7 +97,8 @@ export default function NotificationPanel({
             className={`mb-4 flex cursor-pointer flex-col gap-1 border-b border-gray-100 pb-3 last:border-b-0 ${alarm.isChecked ? 'opacity-50' : ''}`}
             onClick={() => handleClick(alarm.notificationId)}
           >
-            <p className='text-sm text-gray-800'>{alarm.content}</p>
+            {/* <p className='text-sm text-gray-800'>{alarm.content}</p> */}
+            <p className='text-sm text-gray-800'>{getFormattedMessage(alarm)}</p>
             <span className='text-xs text-gray-400'>{getRelativeTime(alarm.notifiedAt)}</span>
           </div>
         ))

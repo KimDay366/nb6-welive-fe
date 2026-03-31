@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 
 export interface Notification {
   notificationId: string;
+  title: string;
   content: string;
   notificationType: string;
   notifiedAt: string;
