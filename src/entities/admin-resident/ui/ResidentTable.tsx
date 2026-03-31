@@ -69,6 +69,10 @@ export default function ResidentTable({
                                   : '세대원'
                                 : row[col.key]}
                           </BgChip>
+                        ) : col.key === 'building' ? (
+                          `${row.building}동`
+                        ) : col.key === 'unitNumber' ? (
+                          `${row.unitNumber}호`
                         ) : (
                           (row[col.key] as React.ReactNode)
                         )}

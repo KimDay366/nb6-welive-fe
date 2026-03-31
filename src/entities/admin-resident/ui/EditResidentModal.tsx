@@ -26,8 +26,8 @@ export default function EditResidentModal({
   useEffect(() => {
     if (resident) {
       setFormData({
-        building: resident.building ?? '',
-        unitNumber: resident.unitNumber ?? '',
+        building: resident.building?.replace(/동$/, '') ?? '',
+        unitNumber: resident.unitNumber?.replace(/호$/, '') ?? '',
         name: resident.name ?? '',
         contact: resident.contact ?? '',
         isHouseholder: resident.isHouseholder ?? 'HOUSEHOLDER',

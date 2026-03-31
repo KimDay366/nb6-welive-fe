@@ -42,7 +42,7 @@ const extractUniqueOptions = (
 
   return uniqueValues.map((val) => ({
     value: val,
-    label: key === 'building' ? `${String(Number(val))}동` : `${String(Number(val))}호`,
+    label: key === 'building' ? `${val}동` : `${val}호`,
   }));
 };
 

@@ -5,7 +5,7 @@ export function getBuildingOptions(residents: AdminResidentData[]) {
     { value: 'all', label: '전체' },
     ...Array.from(new Set(residents.map((r) => r.building))).map((building) => ({
       value: building,
-      label: building,
+      label: building ? `${building}동` : building,
     })),
   ];
 }
@@ -15,7 +15,7 @@ export function getUnitNumberOptions(residents: AdminResidentData[]) {
     { value: 'all', label: '전체' },
     ...Array.from(new Set(residents.map((r) => r.unitNumber))).map((unitNumber) => ({
       value: unitNumber,
-      label: unitNumber,
+      label: unitNumber ? `${unitNumber}호` : unitNumber,
     })),
   ];
 }

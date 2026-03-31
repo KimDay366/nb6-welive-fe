@@ -39,8 +39,8 @@ export default function ResidentInfoTable({ data, totalCount, currentPage, items
   useEffect(() => {
     if (editData) {
       setForm({
-        building: editData.building || '',
-        unitNumber: editData.unitNumber || '',
+        building: editData.building?.replace(/동$/, '') || '',
+        unitNumber: editData.unitNumber?.replace(/호$/, '') || '',
         contact: editData.contact || '',
         name: editData.name || '',
         isHouseholder: editData.isHouseholder ?? 'HOUSEHOLDER',
@@ -214,8 +214,9 @@ export default function ResidentInfoTable({ data, totalCount, currentPage, items
                 return (
                   <tr key={item.id}>
                     <td className={tdClass}>{no}</td>
-                    <td className={tdClass}>{String(Number(item.building))}</td>
-                    <td className={tdClass}>{String(Number(item.unitNumber))}</td>
+                    <td className={tdClass}>{item.building}동</td>
+                    <td className={tdClass}>{item.unitNumber}호</td>
+
                     <td className={tdClass}>{item.name}</td>
                     <td className={tdClass}>
                       {item.contact.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3')}
