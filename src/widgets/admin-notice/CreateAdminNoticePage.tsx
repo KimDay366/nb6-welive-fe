@@ -22,7 +22,7 @@ export default function CreateAdminNoticePage() {
     if (user) {
       setNewNotice((prev) => ({
         ...prev,
-        userId: user.id,
+        // userId: user.id,
         boardId: user.boardIds?.NOTICE,
         isPinned: false,
       }));
