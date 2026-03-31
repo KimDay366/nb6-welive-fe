@@ -31,7 +31,10 @@ export default function VotingSelector({
   const [submitting, setSubmitting] = useState(false);
   const [canceling, setCanceling] = useState(false);
 
-  const { id: userId, residentDong, role } = useAuthStore.getState().user || {};
+  const user = useAuthStore((state) => state.user);
+  const userId = user?.id;
+  const residentDong = user?.residentDong;
+  const role = user?.role;
 
   const cookieKey = `voted_${pollId}_${userId}`;
   const cookieOptionId = Cookies.get(cookieKey) ?? null;
@@ -40,10 +43,13 @@ export default function VotingSelector({
   const [hasVoted, setHasVoted] = useState(Boolean(cookieOptionId));
 
   const canVote =
-    role !== 'USER'
-      ? true
-      : buildingPermission.length === 0 ||
-        (residentDong && buildingPermission.includes(residentDong));
+    role === 'USER' &&
+    (!buildingPermission ||
+      buildingPermission.length === 0 ||
+      (Array.isArray(buildingPermission)
+        ? buildingPermission.some((p) => p.toLowerCase().trim() === 'all')
+        : (buildingPermission as string).toLowerCase().trim() === 'all') ||
+      (residentDong && buildingPermission.includes(residentDong)));
 
   const endDate = new Date(endAt);
   const isUnavailable = status !== 'IN_PROGRESS';
@@ -61,7 +67,8 @@ export default function VotingSelector({
       const expireDate = new Date(endAt);
       Cookies.set(cookieKey, selectedOptionId, { expires: expireDate });
       setHasVoted(true); // 투표 완료 상태
-      alert(`투표 완료: ${response.updatedOption.title}`);
+      const selectedOption = options.find((opt) => opt.id === selectedOptionId);
+      alert(`투표 완료: ${selectedOption?.title ?? ''}`);
     } catch (error) {
       console.error('투표 실패:', error);
       alert('투표에 실패했습니다.');

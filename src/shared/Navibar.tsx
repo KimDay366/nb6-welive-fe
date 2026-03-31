@@ -61,6 +61,11 @@ export default function Navibar() {
     }
   }
 
+  // 페이지 이동 시 알림창 닫기
+  useEffect(() => {
+    setIsNotificationOpen(false);
+  }, [router.asPath]);
+
   // 알림 토글 함수
   const toggleNotification = () => setIsNotificationOpen((prev) => !prev);
 
@@ -115,6 +120,15 @@ export default function Navibar() {
     }
   }
 
+  // 이미지 경로 처리 함수
+  const getImageUrl = (url?: string) => {
+    if (!url) return '/img/userImage.svg';
+    if (url.startsWith('http')) return url;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '') || 'http://localhost:3005';
+    return `${baseUrl}${url}`;
+  };
+
   return (
     <div className='z-10 h-[72px] border-b border-gray-200 px-[50px] py-[18px]'>
       <div className='flex h-full items-center justify-between'>
@@ -154,7 +168,7 @@ export default function Navibar() {
           {/* 유저 이미지 및 이름 */}
           <div className='flex items-center gap-2.5'>
             <Image
-              src={user?.avatar ?? '/img/userImage.svg'}
+              src={getImageUrl(user?.avatar)}
               alt='유저 이미지'
               width={36}
               height={36}

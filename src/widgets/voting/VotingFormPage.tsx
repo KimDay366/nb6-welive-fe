@@ -41,8 +41,8 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
       content: initialData?.content ?? '',
       buildingPermission:
         initialData?.buildingPermission && initialData.buildingPermission.length > 0
-          ? initialData.buildingPermission[0]
-          : 'all',
+          ? initialData.buildingPermission
+          : ['all'],
       startDate: initialData?.startDate ?? '',
       endDate: initialData?.endDate ?? '',
       options: initialData?.options.map((opt) => ({ value: opt.title, enabled: true })) ?? [
@@ -102,8 +102,7 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
         status: PollStatus.PENDING,
         title: formData.title,
         content: formData.content,
-        buildingPermission:
-          formData.buildingPermission === 'all' ? [] : [formData.buildingPermission as string],
+        buildingPermission: formData.buildingPermission,
         startDate: new Date(formData.startDate).toISOString(),
         endDate: new Date(formData.endDate).toISOString(),
         options: formData.options.filter((opt) => opt.enabled).map((opt) => ({ title: opt.value })),
@@ -150,33 +149,58 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
             </div>
           </div>
 
-          <div className='flex items-center'>
+          <div className='flex items-start'>
             <h1 className={titleStyle}>투표권자</h1>
-            <Checkbox
-              id='all'
-              checked={buildingPermission === 'all'}
-              onChange={() => setValue('buildingPermission', 'all')}
-            />
-            <label htmlFor='all' className='mr-[80px] ml-[15px] text-[14px] font-semibold'>
-              전체
-            </label>
-            <Checkbox
-              id='each'
-              checked={buildingPermission !== 'all'}
-              onChange={() => setValue('buildingPermission', dongOptions[0]?.value ?? '')}
-            />
-            <label htmlFor='each' className='mx-[15px] text-[14px] font-semibold'>
-              개별
-            </label>
-            <Select
-              className='h-[44px]'
-              showPlaceholder={!isEdit}
-              placeholder='전체'
-              disabled={buildingPermission === 'all'}
-              value={buildingPermission === 'all' ? '' : (buildingPermission as string)}
-              onChange={(value) => setValue('buildingPermission', value)}
-              options={[{ value: 'all', label: '전체' }, ...dongOptions]}
-            />
+            <div className='flex flex-col gap-4'>
+              <div className='flex items-center'>
+                <Checkbox
+                  id='all'
+                  checked={buildingPermission.includes('all')}
+                  onChange={() => {
+                    if (buildingPermission.includes('all')) {
+                      setValue('buildingPermission', [dongOptions[0]?.value ?? '']);
+                    } else {
+                      setValue('buildingPermission', ['all']);
+                    }
+                  }}
+                />
+                <label htmlFor='all' className='mx-[15px] text-[14px] font-semibold'>
+                  전체 (단지 전체 주민)
+                </label>
+              </div>
+
+              {!buildingPermission.includes('all') && (
+                <div className='flex max-h-[150px] w-[500px] flex-wrap gap-x-6 gap-y-3 overflow-y-auto rounded-[12px] border border-gray-200 bg-gray-50 p-4'>
+                  {dongOptions.map((dong) => (
+                    <div key={dong.value} className='flex min-w-[70px] items-center'>
+                      <Checkbox
+                        id={`dong-${dong.value}`}
+                        checked={buildingPermission.includes(dong.value)}
+                        onChange={() => {
+                          const current = [...buildingPermission];
+                          const index = current.indexOf(dong.value);
+                          if (index > -1) {
+                            if (current.length > 1) {
+                              current.splice(index, 1);
+                              setValue('buildingPermission', current);
+                            }
+                          } else {
+                            current.push(dong.value);
+                            setValue('buildingPermission', current);
+                          }
+                        }}
+                      />
+                      <label
+                        htmlFor={`dong-${dong.value}`}
+                        className='ml-2 cursor-pointer text-[14px]'
+                      >
+                        {dong.label}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <VotingFormDate
