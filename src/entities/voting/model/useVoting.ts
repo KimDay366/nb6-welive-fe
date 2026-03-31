@@ -25,7 +25,7 @@ export function useVoting() {
             getVotingList({
               page: 1,
               limit: 100,
-              buildingPermission: 'all',
+              buildingPermission: 'ALL',
               status: statusFilter,
               keyword: keyword?.trim(),
             }),

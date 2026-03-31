@@ -42,7 +42,7 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
       buildingPermission:
         initialData?.buildingPermission && initialData.buildingPermission.length > 0
           ? initialData.buildingPermission
-          : ['all'],
+          : ['ALL'],
       startDate: initialData?.startDate ?? '',
       endDate: initialData?.endDate ?? '',
       options: initialData?.options.map((opt) => ({ value: opt.title, enabled: true })) ?? [
@@ -154,22 +154,22 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
             <div className='flex flex-col gap-4'>
               <div className='flex items-center'>
                 <Checkbox
-                  id='all'
-                  checked={buildingPermission.includes('all')}
+                  id='ALL'
+                  checked={buildingPermission.includes('ALL')}
                   onChange={() => {
-                    if (buildingPermission.includes('all')) {
+                    if (buildingPermission.includes('ALL')) {
                       setValue('buildingPermission', [dongOptions[0]?.value ?? '']);
                     } else {
-                      setValue('buildingPermission', ['all']);
+                      setValue('buildingPermission', ['ALL']);
                     }
                   }}
                 />
-                <label htmlFor='all' className='mx-[15px] text-[14px] font-semibold'>
+                <label htmlFor='ALL' className='mx-[15px] text-[14px] font-semibold'>
                   전체 (단지 전체 주민)
                 </label>
               </div>
 
-              {!buildingPermission.includes('all') && (
+              {!buildingPermission.includes('ALL') && (
                 <div className='flex max-h-[150px] w-[500px] flex-wrap gap-x-6 gap-y-3 overflow-y-auto rounded-[12px] border border-gray-200 bg-gray-50 p-4'>
                   {dongOptions.map((dong) => (
                     <div key={dong.value} className='flex min-w-[70px] items-center'>

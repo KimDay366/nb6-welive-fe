@@ -47,8 +47,8 @@ export default function VotingSelector({
     (!buildingPermission ||
       buildingPermission.length === 0 ||
       (Array.isArray(buildingPermission)
-        ? buildingPermission.some((p) => p.toLowerCase().trim() === 'all')
-        : (buildingPermission as string).toLowerCase().trim() === 'all') ||
+        ? buildingPermission.some((p) => p.toLowerCase().trim() === 'ALL')
+        : (buildingPermission as string).toLowerCase().trim() === 'ALL') ||
       (residentDong && buildingPermission.includes(residentDong)));
 
   const endDate = new Date(endAt);
