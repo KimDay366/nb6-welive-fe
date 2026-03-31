@@ -97,8 +97,7 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
       return;
     }
     try {
-      const payload = {
-        boardId,
+      const basePayload = {
         status: PollStatus.PENDING,
         title: formData.title,
         content: formData.content,
@@ -109,10 +108,11 @@ export default function VotingFormPage({ isEdit = false, initialData }: Props) {
       };
 
       if (isEdit && initialData?.pollId) {
-        await patchUpdateVoting(initialData.pollId, payload);
+        await patchUpdateVoting(initialData.pollId, basePayload);
       } else {
-        await postCreateVoting(payload);
+        await postCreateVoting({ ...basePayload, boardId });
       }
+
       router.push('/admin/voting');
     } catch (error) {
       console.error(error);
