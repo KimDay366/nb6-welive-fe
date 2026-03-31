@@ -1,6 +1,7 @@
 import PostActionButtons from '@/entities/post/ui/PostActionButtons';
 import axios from '@/shared/lib/axios';
 import { useRouter } from 'next/router';
+import { formatDateToKST } from '@/shared/lib/formatDateToKST';
 
 interface Props {
   date: string;
@@ -43,7 +44,7 @@ export default function CivilMeta({
   return (
     <div className='flex justify-between pt-8 pb-4.5'>
       <ul className='flex gap-4 text-[14px] text-gray-400'>
-        <li className='text-gray-500'>{date}</li>
+        <li className='text-gray-500'>{formatDateToKST(date)}</li>
         <li className='text-gray-200'>|</li>
         <li>조회수&nbsp;&nbsp;{views}</li>
         <li className='text-gray-200'>|</li>
