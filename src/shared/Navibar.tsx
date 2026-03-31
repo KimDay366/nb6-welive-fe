@@ -66,13 +66,18 @@ export default function Navibar() {
 
   // SSE 연결
   useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken'); // 저장된 토큰 가져오기
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, '');
     if (!baseUrl) {
       console.error('BASE_URL is undefined');
       return;
     }
 
-    const eventSource = new EventSource(`${baseUrl}/notifications/sse`, {
+    // const eventSource = new EventSource(`${baseUrl}/notifications/sse`, {
+    //   withCredentials: true,
+    // });
+
+    const eventSource = new EventSource(`${baseUrl}/notifications/sse?token=${accessToken}`, {
       withCredentials: true,
     });
 
@@ -139,6 +144,7 @@ export default function Navibar() {
               <NotificationPanel
                 notifications={notifications}
                 setNotifications={setNotifications}
+                role={role}
                 onClose={toggleNotification}
                 onMarkAsRead={markAsRead}
               />
