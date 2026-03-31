@@ -5,12 +5,20 @@ const getBaseUrl = (): string => {
     const storedUrl = localStorage.getItem('apiBaseUrl');
     if (storedUrl && storedUrl.startsWith('http')) return storedUrl;
   }
-  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  return process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3005';
 };
 
 const axiosInstance = axios.create({
   baseURL: getBaseUrl(),
   withCredentials: true,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem('accessToken');
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 axiosInstance.interceptors.response.use(
