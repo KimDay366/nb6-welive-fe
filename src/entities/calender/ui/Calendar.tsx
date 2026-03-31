@@ -46,11 +46,11 @@ export default function Calendar() {
     async function fetchEvent() {
       if (!user?.apartmentId) return;
       try {
-        const response = await axiosInstance.get('/event', {
+        const response = await axiosInstance.get('/events', {
           params: {
+            apartmentId: user.apartmentId,
             year: year,
             month: month + 1,
-            apartmentId: user.apartmentId,
           },
         });
         setUpdateEvents(response.data);
