@@ -1,5 +1,5 @@
 import { AdminNoticeDetailTypes, NoticeDetailProps } from '@/entities/notice/model/notice.types';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import EditAdminNoticeOptions from '@/entities/notice/ui/edit/EditAdminNoticeOptions';
 import NoticeMain from '@/entities/notice/ui/NoticeMain';
@@ -13,15 +13,20 @@ export default function EditAdminNoticePage() {
   const user = useAuthStore((state) => state.user);
   const router = useRouter();
   const { id } = router.query;
+  const isFetched = useRef(false);
   const isCalendarCheck = !!data?.startDate;
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || typeof id !== 'string') return;
+    if (isFetched.current) return;
+    isFetched.current = true;
+
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/notices/${id}`);
         setData(response.data);
       } catch (error) {
+        isFetched.current = false;
         console.error('공지사항 등록 실패:', error);
       }
     };

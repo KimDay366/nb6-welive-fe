@@ -3,7 +3,7 @@ import Title from '@/shared/Title';
 import CivilMeta from './CivilMeta';
 import CivilContent from './CivilContent';
 import Select from '@/shared/Select';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from '@/shared/lib/axios';
 import CommentSection from '@/shared/comments/ui/CommentSection';
 import { useAuthStore } from '@/shared/store/auth.store';
@@ -36,15 +36,19 @@ export default function CivilViewPage() {
   };
 
   const [complaint, setComplaint] = useState<ComplaintDetail | null>(null);
+  const isFetched = useRef(false);
 
   useEffect(() => {
     if (!id || typeof id !== 'string') return;
+    if (isFetched.current) return;
 
     const fetchComplaint = async () => {
       try {
+        isFetched.current = true;
         const res = await axios.get(`/complaints/${id}`);
         setComplaint(res.data);
       } catch (error) {
+        isFetched.current = false;
         console.error('민원 데이터를 가져오는 중 오류 발생:', error);
       }
     };

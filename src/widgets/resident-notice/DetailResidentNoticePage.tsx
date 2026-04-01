@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { fetchResidentNoticeDetail } from '@/entities/notice/api/noticeApi';
 import CommentSection from '@/shared/comments/ui/CommentSection';
@@ -37,15 +37,19 @@ export default function DetailResidentNoticePage() {
   const router = useRouter();
   const { id: noticeId } = router.query;
   const [notice, setNotice] = useState<NoticeDetail | null>(null);
+  const isFetched = useRef(false);
 
   useEffect(() => {
     if (!noticeId || typeof noticeId !== 'string') return;
+    if (isFetched.current) return;
+    isFetched.current = true; // 동기적으로 즉시 설정
 
     const fetchData = async () => {
       try {
         const data = await fetchResidentNoticeDetail(noticeId);
         setNotice(data);
       } catch (err) {
+        isFetched.current = false;
         console.error('상세 공지사항 불러오기 실패', err);
       }
     };
